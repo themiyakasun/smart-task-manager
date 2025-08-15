@@ -23,6 +23,7 @@ builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 
 //Interfaces and Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
 var app = builder.Build();
 
