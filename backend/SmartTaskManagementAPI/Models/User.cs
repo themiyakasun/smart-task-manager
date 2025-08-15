@@ -9,5 +9,6 @@
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public virtual ICollection<UserTask> Tasks { get; set; } = new List<UserTask>();
     }
 }
