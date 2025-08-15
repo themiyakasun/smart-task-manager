@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartTaskManagementAPI.Dtos.Task;
+using SmartTaskManagementAPI.Helpers;
 using SmartTaskManagementAPI.Interfaces;
 using SmartTaskManagementAPI.Models;
 
@@ -25,6 +26,18 @@ namespace SmartTaskManagementAPI.Controllers
             if(task is null) return BadRequest("Task with this title already exists for the user.");
 
             return Ok(task);
+        }
+        [HttpGet]
+        [Route("usertasks/{userId}", Name = "GetUserTasks")]
+        public async Task<ActionResult<List<UserTask>>> GetUserTasks([FromQuery] QueryObject query, int userId)
+        {
+            if (userId <= 0) return BadRequest("Invalid user ID.");
+
+            var tasks = await _taskRepository.GetUserTasksAsync(query, userId);
+
+            if (tasks is null || tasks.Count == 0) return NotFound("No tasks found for the user.");
+
+            return tasks;
         }
     }
 }
