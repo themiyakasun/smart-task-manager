@@ -1,4 +1,4 @@
-﻿namespace SmartTaskManagementAPI.Dtos
+﻿namespace SmartTaskManagementAPI.Dtos.User
 {
     public class UserDto
     {

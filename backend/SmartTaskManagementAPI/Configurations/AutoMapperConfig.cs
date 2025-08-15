@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SmartTaskManagementAPI.Dtos;
+using SmartTaskManagementAPI.Dtos.User;
 using SmartTaskManagementAPI.Models;
 
 namespace SmartTaskManagementAPI.Configurations
