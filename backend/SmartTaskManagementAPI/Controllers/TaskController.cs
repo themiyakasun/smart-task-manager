@@ -39,5 +39,17 @@ namespace SmartTaskManagementAPI.Controllers
 
             return tasks;
         }
+        [HttpGet]
+        [Route("{id}", Name = " GetTaskById")]
+        public async Task<ActionResult<UserTask>> GetTaskByID(int id)
+        {
+            if (id <= 0) return BadRequest("Invalid task ID.");
+
+            var task = await _taskRepository.GetTaskByIdAsync(id);
+
+            if (task is null) return NotFound($"Task with {id} not found");
+
+            return Ok(task);
+        }
     }
 }

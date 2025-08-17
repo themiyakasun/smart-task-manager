@@ -32,6 +32,13 @@ namespace SmartTaskManagementAPI.Repositories
             return task;
         }
 
+        public Task<UserTask?> GetTaskByIdAsync(int taskId)
+        {
+            var task = _dbContext.Tasks.FirstOrDefaultAsync(t => t.Id == taskId);
+
+            return task;
+        }
+
         public async Task<List<UserTask>> GetUserTasksAsync(QueryObject query, int userId)
         {
             var tasks = _dbContext.Tasks
@@ -67,5 +74,7 @@ namespace SmartTaskManagementAPI.Repositories
 
             return await tasks.Skip(skipSize).Take(query.PageSize).ToListAsync();
         }
+
+
     }
 }
