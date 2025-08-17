@@ -32,9 +32,9 @@ namespace SmartTaskManagementAPI.Repositories
             return task;
         }
 
-        public Task<UserTask?> GetTaskByIdAsync(int taskId)
+        public async Task<UserTask?> GetTaskByIdAsync(int taskId)
         {
-            var task = _dbContext.Tasks.FirstOrDefaultAsync(t => t.Id == taskId);
+            var task = await _dbContext.Tasks.FirstOrDefaultAsync(t => t.Id == taskId);
 
             return task;
         }
@@ -75,6 +75,19 @@ namespace SmartTaskManagementAPI.Repositories
             return await tasks.Skip(skipSize).Take(query.PageSize).ToListAsync();
         }
 
+        public async Task<UserTask?> UpdateTaskAsync(int taskId, UpdateTaskDto updateTaskDto)
+        {
+            var existingTask = await _dbContext.Tasks.FindAsync(taskId);
 
+            if (existingTask is null) return null;
+
+            existingTask.Title = updateTaskDto.Title;
+            existingTask.Description = updateTaskDto.Description;
+            existingTask.Status = updateTaskDto.Status;
+
+            await _dbContext.SaveChangesAsync();
+
+            return existingTask;
+        }
     }
 }

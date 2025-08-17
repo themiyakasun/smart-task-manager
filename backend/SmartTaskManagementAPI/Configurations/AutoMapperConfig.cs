@@ -9,8 +9,11 @@ namespace SmartTaskManagementAPI.Configurations
     {
         public AutoMapperConfig()
         {
+            // User mappings
             CreateMap<UserDto, User>().ReverseMap();
+            // Task mappings
             CreateMap<TaskDto, UserTask>().ReverseMap();
+            CreateMap<UpdateTaskDto, UserTask>().ReverseMap();
         }
     }
 }

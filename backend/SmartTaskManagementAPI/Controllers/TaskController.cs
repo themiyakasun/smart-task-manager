@@ -19,7 +19,7 @@ namespace SmartTaskManagementAPI.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<UserTask>> CreateTask(TaskDto taskDto)
+        public async Task<ActionResult<UserTask>> CreateTask([FromBody] TaskDto taskDto)
         {
             var task = await _taskRepository.CreateAsync(taskDto);
 
@@ -29,7 +29,7 @@ namespace SmartTaskManagementAPI.Controllers
         }
         [HttpGet]
         [Route("usertasks/{userId}", Name = "GetUserTasks")]
-        public async Task<ActionResult<List<UserTask>>> GetUserTasks([FromQuery] QueryObject query, int userId)
+        public async Task<ActionResult<List<UserTask>>> GetUserTasks([FromQuery] QueryObject query, [FromRoute] int userId)
         {
             if (userId <= 0) return BadRequest("Invalid user ID.");
 
@@ -41,7 +41,7 @@ namespace SmartTaskManagementAPI.Controllers
         }
         [HttpGet]
         [Route("{id}", Name = " GetTaskById")]
-        public async Task<ActionResult<UserTask>> GetTaskByID(int id)
+        public async Task<ActionResult<UserTask>> GetTaskByID([FromRoute] int id)
         {
             if (id <= 0) return BadRequest("Invalid task ID.");
 
@@ -49,6 +49,18 @@ namespace SmartTaskManagementAPI.Controllers
 
             if (task is null) return NotFound($"Task with {id} not found");
 
+            return Ok(task);
+        }
+        [HttpPut]
+        [Route("{id}", Name = "UpdateTask")]
+        public async Task<ActionResult<UserTask>> UpdateTask([FromRoute] int id, [FromBody] UpdateTaskDto updateTaskDto)
+        {
+            if( id <= 0) return BadRequest("Invalid task ID.");
+            if(updateTaskDto is null) return BadRequest("Update data cannot be null.");
+
+            var task = await _taskRepository.UpdateTaskAsync(id, updateTaskDto);
+
+            if (task is null) return NotFound($"Task with {id} not found");
             return Ok(task);
         }
     }
