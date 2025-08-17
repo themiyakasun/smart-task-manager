@@ -32,6 +32,19 @@ namespace SmartTaskManagementAPI.Repositories
             return task;
         }
 
+        public async Task<UserTask?> DeleteTaskAsync(int taskId)
+        {
+            var task = await _dbContext.Tasks.FindAsync(taskId);
+
+            if (task is null) return null;
+
+            _dbContext.Tasks.Remove(task);
+            await _dbContext.SaveChangesAsync();
+
+            return task;
+
+        }
+
         public async Task<UserTask?> GetTaskByIdAsync(int taskId)
         {
             var task = await _dbContext.Tasks.FirstOrDefaultAsync(t => t.Id == taskId);

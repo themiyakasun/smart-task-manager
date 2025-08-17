@@ -63,5 +63,14 @@ namespace SmartTaskManagementAPI.Controllers
             if (task is null) return NotFound($"Task with {id} not found");
             return Ok(task);
         }
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult<UserTask>> DeleteTask([FromRoute] int id)
+        {
+            if (id <= 0) return BadRequest("Invalid task ID.");
+            var task = await _taskRepository.DeleteTaskAsync(id);
+            if (task is null) return NotFound($"Task with {id} not found");
+            return Ok(task);
+        }
     }
 }
