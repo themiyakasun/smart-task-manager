@@ -88,7 +88,7 @@
 html,
 body {
  width: 100%;
- background-color: var(--color-bg-primary);
+ background-color: var(--color-bg-primary)/40;
  color: var(--color-text-primary);
  scroll-behavior: smooth;
  overflow-x: hidden;
@@ -99,7 +99,7 @@ body {
 /* Component Classes */
 @layer components {
  .input-field {
-  @apply bg-bg-primary border border-border rounded-md p-3 text-base font-medium text-text-primary transition-all duration-150 ease-in-out focus:outline-none focus:border-border-focus focus:ring-3 focus:ring-primary/10;
+  @apply bg-bg-primary border border-border rounded-md p-3 text-base font-medium text-text-primary transition-all duration-150 ease-in-out relative focus:outline-none focus:border-border-focus focus:ring-3 focus:ring-primary/10;
 
   input {
    @apply w-full h-full outline-none border-none text-inherit placeholder:text-text-muted;
@@ -107,7 +107,7 @@ body {
  }
 
  .btn {
-  @apply py-3 px-6 rounded-lg font-medium text-base border-none cursor-pointer transition-all duration-150 ease-in-out;
+  @apply py-3 px-6 rounded-lg font-medium text-base border-none cursor-pointer transition-all duration-150 ease-in-out flex-center;
  }
 
  .btn-primary {

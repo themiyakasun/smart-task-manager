@@ -42,7 +42,7 @@ namespace SmartTaskManagementAPI.Repositories
             await _dbContext.SaveChangesAsync();
             return user;
         }
-        public async Task<TokenResponseDto?> LoginAsync(LoginDto loginDto)
+        public async Task<LoginResponseDto?> LoginAsync(LoginDto loginDto)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
 
@@ -51,8 +51,16 @@ namespace SmartTaskManagementAPI.Repositories
             if (new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, loginDto.Password) == PasswordVerificationResult.Failed) return null;
 
             TokenResponseDto tokenResponse = await CreateTokenRespone(user);
-            return tokenResponse;
 
+            return new LoginResponseDto
+            {
+                User = new UserDto
+                {
+                    Email = user.Email,
+                    Name = user.Name
+                },
+                Token = tokenResponse
+            };
         }
 
         public async Task<TokenResponseDto?> RefreshTokenAsync(RefreshTokenRequestDto refreshTokenRequestDto)
