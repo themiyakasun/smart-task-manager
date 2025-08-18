@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartTaskManagementAPI.Dtos.Task;
 using SmartTaskManagementAPI.Helpers;
@@ -19,6 +20,7 @@ namespace SmartTaskManagementAPI.Controllers
         }
 
         [HttpPost("create")]
+        [Authorize]
         public async Task<ActionResult<UserTask>> CreateTask([FromBody] TaskDto taskDto)
         {
             var task = await _taskRepository.CreateAsync(taskDto);
@@ -29,6 +31,7 @@ namespace SmartTaskManagementAPI.Controllers
         }
         [HttpGet]
         [Route("usertasks/{userId}", Name = "GetUserTasks")]
+        [Authorize]
         public async Task<ActionResult<List<UserTask>>> GetUserTasks([FromQuery] QueryObject query, [FromRoute] int userId)
         {
             if (userId <= 0) return BadRequest("Invalid user ID.");
@@ -53,6 +56,7 @@ namespace SmartTaskManagementAPI.Controllers
         }
         [HttpPut]
         [Route("{id}", Name = "UpdateTask")]
+        [Authorize]
         public async Task<ActionResult<UserTask>> UpdateTask([FromRoute] int id, [FromBody] UpdateTaskDto updateTaskDto)
         {
             if( id <= 0) return BadRequest("Invalid task ID.");
@@ -65,6 +69,7 @@ namespace SmartTaskManagementAPI.Controllers
         }
         [HttpDelete]
         [Route("{id}")]
+        [Authorize]
         public async Task<ActionResult<UserTask>> DeleteTask([FromRoute] int id)
         {
             if (id <= 0) return BadRequest("Invalid task ID.");
