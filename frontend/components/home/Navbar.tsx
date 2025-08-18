@@ -1,4 +1,6 @@
+import { RiSearchLine } from '@remixicon/react';
 import Button from 'components/ui/Button';
+import Search from 'components/ui/Search';
 import { useAuth } from 'contexts/useAuth';
 import React from 'react';
 
@@ -19,29 +21,8 @@ const Navbar = () => {
           </div>
 
           <div className='flex items-center'>
-            <div className='hidden md:block flex-1 max-w-lg mx-8'>
-              <div className='relative'>
-                <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-                  <svg
-                    className='h-5 w-5 text-gray-400'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                  >
-                    <path
-                      stroke-linecap='round'
-                      stroke-linejoin='round'
-                      stroke-width='2'
-                      d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-                    />
-                  </svg>
-                </div>
-                <input
-                  type='text'
-                  placeholder='Search anything...'
-                  className='block w-full pl-10 pr-3 py-2 input-field'
-                />
-              </div>
+            <div className='hidden md:block flex-1 max-w-xl mx-8'>
+              <Search />
             </div>
             <div className='flex-center space-x-2'>
               <Button variant='PRIMARY' text='Create Task' type='button' />
