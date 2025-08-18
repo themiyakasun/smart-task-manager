@@ -54,8 +54,9 @@ namespace SmartTaskManagementAPI.Repositories
 
             return new LoginResponseDto
             {
-                User = new UserDto
+                User = new LoginResponseUserDto
                 {
+                    Id = user.Id,
                     Email = user.Email,
                     Name = user.Name
                 },

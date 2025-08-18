@@ -24,15 +24,23 @@ export type ButtonProps = {
   text: string;
   type: 'submit' | 'button';
   customStyles?: string;
+  onClick?: () => void;
 };
 
-export type CardProps = {};
+export type CardProps = {
+  id: number;
+  status: number;
+  title: string;
+  description: string;
+  createdAt: Date;
+};
 
 export type StatusTabProps = {
   type: 'PENDING' | 'PROGRESS' | 'COMPLETED';
 };
 
 export type UserData = {
+  id: number;
   name: string;
   email: string;
 };
@@ -45,3 +53,22 @@ export type UserContextType = {
   logout: () => void;
   isLoggedIn: () => boolean;
 };
+
+export type TaskGetProps = {
+  id: number;
+  title: string;
+  description: string;
+  status: number;
+  createdAt: Date;
+  userId: number;
+  userDetails: null;
+};
+
+interface QueryParams {
+  search?: string;
+  status?: string;
+  sortBy?: string;
+  isDescending?: boolean;
+  pageNumber?: number;
+  pageSize?: number;
+}

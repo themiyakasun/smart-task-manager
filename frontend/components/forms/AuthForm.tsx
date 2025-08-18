@@ -1,11 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { FieldValues, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { z, ZodType } from 'zod';
+
 import Button from 'components/ui/Button';
 import FormField from 'components/ui/FormField';
 import { useAuth } from 'contexts/useAuth';
 import type { AuthFormProps } from 'index';
-import type { FieldValues, SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
-import { z, ZodType } from 'zod';
 
 const AuthForm = <T extends FieldValues>({
   type,

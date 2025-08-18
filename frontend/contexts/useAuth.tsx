@@ -33,12 +33,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     await registerAPI(name, email, password)
       .then((res) => {
         if (res) {
-          const userObj = {
-            name: res.data.name,
-            email: res.data.email,
-          };
-          localStorage.setItem('user', JSON.stringify(userObj));
-          setUser(userObj);
           toast.success('Registration successfull');
           navigate('/sign-in');
         }
@@ -52,6 +46,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         if (res) {
           localStorage.setItem('token', res.data.token.accessToken);
           const userObj = {
+            id: res.data.user.id,
             name: res.data.user.name,
             email: res.data.user.email,
           };
