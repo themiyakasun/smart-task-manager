@@ -3,7 +3,7 @@ import { handleError } from 'helpers/error-handlers';
 import type { QueryParams, TaskGetProps } from 'index';
 import { toast } from 'react-toastify';
 
-const api = 'https://localhost:7155/api/';
+const api = 'http://localhost:5140/api/';
 
 export const createTaskAPI = async (
   title: string,

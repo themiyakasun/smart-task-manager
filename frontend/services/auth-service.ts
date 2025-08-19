@@ -2,7 +2,7 @@ import axios from 'axios';
 import { handleError } from 'helpers/error-handlers';
 import { toast } from 'react-toastify';
 
-const api = 'https://localhost:7155/api/';
+const api = 'http://localhost:5140/api/';
 
 export const loginAPI = async (email: string, password: string) => {
   try {
