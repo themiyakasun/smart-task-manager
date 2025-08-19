@@ -6,7 +6,7 @@ namespace SmartTaskManagementAPI.Interfaces
     public interface IUserRepository
     {
         public Task<User?> RegisterAsync(UserDto userDto);
-        public Task<TokenResponseDto?> LoginAsync(LoginDto loginDto);
+        public Task<LoginResponseDto?> LoginAsync(LoginDto loginDto);
         public Task<TokenResponseDto?> RefreshTokenAsync(RefreshTokenRequestDto refreshTokenRequestDto);
     }
 }

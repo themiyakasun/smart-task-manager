@@ -29,7 +29,7 @@ namespace SmartTaskManagementAPI.Controllers
             return Ok(user);
         }
         [HttpPost("login")]
-        public async Task<ActionResult<TokenResponseDto>> Login(LoginDto loginDto)
+        public async Task<ActionResult<LoginResponseDto>> Login(LoginDto loginDto)
         {
             var result = await _userRepository.LoginAsync(loginDto);
 
