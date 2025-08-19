@@ -1,5 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { FieldValues, SubmitHandler } from 'react-hook-form';
+import type {
+  DefaultValues,
+  FieldValues,
+  SubmitHandler,
+} from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import Button from 'components/ui/Button';
@@ -16,8 +20,8 @@ const AuthForm = <T extends FieldValues>({
   const { loginUser, registerUser } = useAuth();
 
   const { handleSubmit, control } = useForm<T>({
-    resolver: zodResolver(schema),
-    defaultValues,
+    resolver: zodResolver(schema as any) as any,
+    defaultValues: defaultValues as DefaultValues<T>,
   });
 
   const onSubmit: SubmitHandler<T> = async (data) => {

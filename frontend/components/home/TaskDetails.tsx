@@ -5,7 +5,7 @@ import { RiCalendarLine } from '@remixicon/react';
 import Button from 'components/ui/Button';
 import Modal from 'components/ui/Modal';
 import TaskForm from 'components/forms/TaskForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TaskUpdateSchema } from 'lib/validation';
 import { deleteTaskAPI } from 'services/task-service';
 import { toast } from 'react-toastify';
@@ -16,14 +16,25 @@ type Props = {
 
 const TaskDetails = ({ taskDetails }: Props) => {
   const [showUpdateTaskModal, setShowUpdateTaskModal] = useState(false);
+  const [formattedDate, setFormattedDate] = useState('');
+
+  useEffect(() => {
+    setFormattedDate(
+      new Date(taskDetails.createdAt).toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    );
+  }, [taskDetails.createdAt]);
 
   const handleDelete = () => {
     deleteTaskAPI(taskDetails.id).then((res) => {
       if (res?.status === 200) {
         toast.success('Successfully deleted the task');
-        setInterval(() => {
-          window.location.reload();
-        }, 2000);
+        setTimeout(() => window.location.reload(), 2000);
       } else {
         toast.warning('Failed to delete task');
       }
@@ -61,15 +72,7 @@ const TaskDetails = ({ taskDetails }: Props) => {
             <RiCalendarLine className='w-4 h-4 text-gray-500 mr-2' />
             <span className='text-sm font-medium text-gray-500'>CREATED</span>
           </div>
-          <p className='text-gray-800'>
-            {new Date(taskDetails.createdAt).toLocaleString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
-          </p>
+          <p className='text-gray-800'>{formattedDate}</p>
         </div>
       </div>
       <div className='flex gap-2'>

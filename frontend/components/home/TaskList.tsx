@@ -42,6 +42,7 @@ const TaskList = ({ tasksList }: Props) => {
           setActiveTask={setActiveTask}
         />
       ))}
+
       <Modal active={showTaskDetails} setActive={setShowTaskDetails}>
         {taskDetails !== null &&
           (isLoading ? <Spinner /> : <TaskDetails taskDetails={taskDetails} />)}

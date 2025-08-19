@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import Button from 'components/ui/Button';
 import FormField from 'components/ui/FormField';
 import type { TaskFormProps } from 'index';
+import type { DefaultValues } from 'react-hook-form';
 import { statusPostOptions } from 'constants/index';
 import { createTaskAPI, updateTaskAPI } from 'services/task-service';
 import { useAuth } from 'contexts/useAuth';
@@ -19,8 +20,8 @@ const TaskForm = <T extends FieldValues>({
   const { user } = useAuth();
 
   const { handleSubmit, control } = useForm<T>({
-    resolver: zodResolver(schema),
-    defaultValues,
+    resolver: zodResolver(schema as any) as any,
+    defaultValues: defaultValues as DefaultValues<T>,
   });
 
   const handleCreate = (data: any) => {
@@ -32,9 +33,7 @@ const TaskForm = <T extends FieldValues>({
     ).then((res) => {
       if (res?.status === 200) {
         toast.success('Task added successfully');
-        setInterval(() => {
-          window.location.reload();
-        }, 2000);
+        setTimeout(() => window.location.reload(), 2000);
       } else {
         toast.error('Failed to create task');
       }
@@ -51,9 +50,7 @@ const TaskForm = <T extends FieldValues>({
     ).then((res) => {
       if (res?.status === 200) {
         toast.success('Task updated successfully');
-        setInterval(() => {
-          window.location.reload();
-        }, 2000);
+        setTimeout(() => window.location.reload(), 2000);
       } else {
         toast.error('Failed to update task');
       }

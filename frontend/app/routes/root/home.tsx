@@ -70,18 +70,16 @@ export default function Home() {
           currentSort={currentSort}
         />
 
-        {tasks?.length == 0 ||
-          (tasks?.length == undefined && (
-            <div className='flex-center mt-10'>
-              <div>
-                <h3 className='heading-3'>No Tasks Available</h3>
-                <p>Hurry up and create task</p>
-              </div>
+        {!loading && tasks.length === 0 && (
+          <div className='flex-center mt-10'>
+            <div>
+              <h3 className='heading-3'>No Tasks Available</h3>
+              <p>Hurry up and create task</p>
             </div>
-          ))}
+          </div>
+        )}
 
-        {tasks !== null &&
-          (loading ? <Spinner /> : <TaskList tasksList={tasks} />)}
+        {loading ? <Spinner /> : <TaskList tasksList={tasks} />}
       </div>
     </div>
   );
