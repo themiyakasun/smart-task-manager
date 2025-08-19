@@ -1,6 +1,6 @@
 import Card from 'components/ui/Card';
 import type { Route } from './+types/home';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { TaskGetProps } from 'index';
 import { getUsersTasksAPI } from 'services/task-service';
 import { useAuth } from 'contexts/useAuth';
@@ -9,6 +9,7 @@ import Filterbar from 'components/home/Filterbar';
 
 import { RiSearchLine } from '@remixicon/react';
 import Search from 'components/ui/Search';
+import { statusOptions, sortOptions } from 'constants/index';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -20,15 +21,33 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const [tasks, setTasks] = useState<TaskGetProps[] | null>([]);
   const [showTaskDetails, setShowTaskDetails] = useState(false);
+  const [currentFilter, setCurrentFilter] = useState(statusOptions[0].value);
+  const [currentSort, setCurrentSort] = useState(sortOptions[0].value);
+
   const { user } = useAuth();
+
+  const getTasks = useCallback(() => {
+    getUsersTasksAPI(user?.id as number, {
+      status: currentFilter,
+      sortBy: 'CreatedAt',
+      isDescending: currentSort === 'newest',
+    }).then((res) => setTasks(res?.data!));
+  }, [user?.id, currentFilter, currentSort]);
+
+  const onFilterChange = (value: string) => {
+    setCurrentFilter(value);
+  };
+  const onSortChange = (value: string) => {
+    setCurrentSort(value);
+  };
 
   useEffect(() => {
     getTasks();
-  }, []);
+  }, [getTasks]);
 
-  const getTasks = () => {
-    getUsersTasksAPI(user?.id as number).then((res) => setTasks(res?.data!));
-  };
+  useEffect(() => {
+    getTasks();
+  }, [currentFilter, currentSort, getTasks]);
 
   return (
     <div className='container mx-auto'>
@@ -39,7 +58,16 @@ export default function Home() {
           </div>
         </div>
 
-        {<Filterbar tasks={tasks!} user={user!} />}
+        {
+          <Filterbar
+            tasks={tasks!}
+            user={user!}
+            onFilterChange={onFilterChange}
+            onSortChange={onSortChange}
+            currentFilter={currentFilter}
+            currentSort={currentSort}
+          />
+        }
         {tasks !== null && <TaskList tasksList={tasks} />}
       </div>
     </div>
