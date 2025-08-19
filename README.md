@@ -45,5 +45,6 @@ Smart Task Manager is a full-stack web application designed to help users effici
 
 ## Known Issues 
 - Make sure the backend server is running at http://localhost:5140
+- If you get this error "can't access property "useRef", resolveDispatcher()" simply reload the page because it's version error 
 
      
