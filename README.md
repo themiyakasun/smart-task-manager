@@ -23,7 +23,7 @@ Smart Task Manager is a full-stack web application designed to help users effici
 
 ## Setup Instructions
 1. Clone repository
-- git clone
+- git clone https://github.com/themiyakasun/smart-task-manager.git
 - cd smart-task-manager
 2. Install dependencies
 - **Frontend**
