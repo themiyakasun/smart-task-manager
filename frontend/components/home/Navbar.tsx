@@ -5,11 +5,14 @@ import Search from 'components/ui/Search';
 import { useAuth } from 'contexts/useAuth';
 import { TaskSchema } from 'lib/validation';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 const Navbar = () => {
   const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
   const { logout, isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
   const handleShowCreate = () => {
     if (!isLoggedIn) {
       toast.warning('Need to authenticate');
@@ -42,12 +45,21 @@ const Navbar = () => {
                 type='button'
                 onClick={handleShowCreate}
               />
-              <Button
-                variant='SECONDARY'
-                text='Logout'
-                type='button'
-                onClick={logout}
-              />
+              {isLoggedIn ? (
+                <Button
+                  variant='SECONDARY'
+                  text='Logout'
+                  type='button'
+                  onClick={logout}
+                />
+              ) : (
+                <Button
+                  variant='SECONDARY'
+                  text='Sign in'
+                  type='button'
+                  onClick={() => navigate('/sign-in')}
+                />
+              )}
             </div>
           </div>
         </div>
