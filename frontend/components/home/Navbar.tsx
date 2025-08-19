@@ -5,10 +5,18 @@ import Search from 'components/ui/Search';
 import { useAuth } from 'contexts/useAuth';
 import { TaskSchema } from 'lib/validation';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
   const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
-  const { logout } = useAuth();
+  const { logout, isLoggedIn } = useAuth();
+  const handleShowCreate = () => {
+    if (!isLoggedIn) {
+      toast.warning('Need to authenticate');
+      window.location.href = '/sign-in';
+    }
+    setShowCreateTaskModal(true);
+  };
 
   return (
     <header className='bg-white border-b border-gray-200 sticky top-0 z-40'>
@@ -32,7 +40,7 @@ const Navbar = () => {
                 variant='PRIMARY'
                 text='Create Task'
                 type='button'
-                onClick={() => setShowCreateTaskModal(true)}
+                onClick={handleShowCreate}
               />
               <Button
                 variant='SECONDARY'

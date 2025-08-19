@@ -7,7 +7,6 @@ import TaskList from 'components/home/TaskList';
 import Filterbar from 'components/home/Filterbar';
 import Search from 'components/ui/Search';
 import { statusOptions, sortOptions } from 'constants/index';
-import Pagination from 'components/ui/Pagination';
 import { useSearch } from 'contexts/useSearch';
 import Spinner from 'components/ui/Spinner';
 

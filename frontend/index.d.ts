@@ -65,7 +65,7 @@ export type UserContextType = {
   registerUser: (email: string, name: string, password: string) => void;
   loginUser: (email: string, password: string) => void;
   logout: () => void;
-  isLoggedIn: () => boolean;
+  isLoggedIn: boolean;
 };
 
 export type SearchContextType = {

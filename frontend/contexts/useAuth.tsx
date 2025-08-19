@@ -60,9 +60,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       .catch((e) => toast.warning('Server error occured'));
   };
 
-  const isLoggedIn = () => {
-    return !!user;
-  };
+  const isLoggedIn = !!user;
 
   const logout = () => {
     localStorage.removeItem('user');
