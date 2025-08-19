@@ -19,7 +19,7 @@ const Modal = ({ children, active, setActive }: ModalProps) => {
       <div className='container mx-auto px-4 py-8 h-full flex items-center justify-center overflow-y-auto'>
         <div className='bg-bg-primary rounded-lg max-w-4xl p-6 md:p-8 relative my-8'>
           <button
-            className='absolute top-10 right-10 z-10 bg-transparent text-text-primary  transition-colors cursor-pointer'
+            className='absolute md:top-10 top-2 md:right-10 right-2 z-10 bg-transparent text-text-primary  transition-colors cursor-pointer'
             onClick={() => setActive(false)}
           >
             <div className='w-6 h-6 flex items-center justify-center'>

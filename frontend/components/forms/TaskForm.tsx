@@ -32,6 +32,9 @@ const TaskForm = <T extends FieldValues>({
     ).then((res) => {
       if (res?.status === 200) {
         toast.success('Task added successfully');
+        setInterval(() => {
+          window.location.reload();
+        }, 2000);
       } else {
         toast.error('Failed to create task');
       }
@@ -48,6 +51,9 @@ const TaskForm = <T extends FieldValues>({
     ).then((res) => {
       if (res?.status === 200) {
         toast.success('Task updated successfully');
+        setInterval(() => {
+          window.location.reload();
+        }, 2000);
       } else {
         toast.error('Failed to update task');
       }
@@ -63,7 +69,7 @@ const TaskForm = <T extends FieldValues>({
   };
 
   return (
-    <div className='bg-bg-primary shadow-md rounded-md p-5 w-2xl'>
+    <div className='bg-bg-primary shadow-md rounded-md md:p-5 p-2 md:w-2xl'>
       <div className='text-center mb-4'>
         <h2 className='heading-2'>
           {isCreate ? 'CREATE YOUR TASK' : 'UPDATE YOUR TASK'}

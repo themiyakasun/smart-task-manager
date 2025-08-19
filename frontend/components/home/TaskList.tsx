@@ -4,6 +4,7 @@ import type { TaskGetProps } from 'index';
 import React, { useEffect, useState } from 'react';
 import { getTaskByIdAPI } from 'services/task-service';
 import TaskDetails from './TaskDetails';
+import Spinner from 'components/ui/Spinner';
 
 type Props = {
   tasksList: TaskGetProps[];
@@ -13,12 +14,15 @@ const TaskList = ({ tasksList }: Props) => {
   const [showTaskDetails, setShowTaskDetails] = useState(false);
   const [activeTask, setActiveTask] = useState<number | null>(null);
   const [taskDetails, setTaskDetails] = useState<TaskGetProps | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (activeTask !== null) {
+      setIsLoading(true);
       getTaskByIdAPI(activeTask).then((res) => {
         if (res?.status == 200) {
           setTaskDetails(res.data);
+          setIsLoading(false);
         }
       });
     }
@@ -41,7 +45,8 @@ const TaskList = ({ tasksList }: Props) => {
         </>
       ))}
       <Modal active={showTaskDetails} setActive={setShowTaskDetails}>
-        {taskDetails !== null && <TaskDetails taskDetails={taskDetails} />}
+        {taskDetails !== null &&
+          (isLoading ? <Spinner /> : <TaskDetails taskDetails={taskDetails} />)}
       </Modal>
     </div>
   );

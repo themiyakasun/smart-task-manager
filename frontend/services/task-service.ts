@@ -52,6 +52,20 @@ export const updateTaskAPI = async (
   }
 };
 
+export const deleteTaskAPI = async (id: number) => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await axios.delete(api + `Task/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 export const getUsersTasksAPI = async (
   userId: number,
   queryParams?: QueryParams

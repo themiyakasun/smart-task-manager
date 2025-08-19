@@ -9,6 +9,7 @@ import Search from 'components/ui/Search';
 import { statusOptions, sortOptions } from 'constants/index';
 import Pagination from 'components/ui/Pagination';
 import { useSearch } from 'contexts/useSearch';
+import Spinner from 'components/ui/Spinner';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -23,11 +24,13 @@ export default function Home() {
   const [currentFilter, setCurrentFilter] = useState(statusOptions[0].value);
   const [currentSort, setCurrentSort] = useState(sortOptions[0].value);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();
   const { searchQuery } = useSearch();
 
   const getTasks = useCallback(() => {
+    setLoading(true);
     getUsersTasksAPI(user?.id as number, {
       status: currentFilter,
       sortBy: 'CreatedAt',
@@ -35,7 +38,10 @@ export default function Home() {
       pageNumber: currentPage,
       pageSize: 8,
       search: searchQuery,
-    }).then((res) => setTasks(res?.data!));
+    }).then((res) => {
+      setTasks(res?.data!);
+      setLoading(false);
+    });
   }, [user?.id, currentFilter, currentSort, searchQuery]);
 
   const onFilterChange = (value: string) => {
@@ -71,7 +77,9 @@ export default function Home() {
           currentSort={currentSort}
         />
 
-        {tasks !== null && <TaskList tasksList={tasks} />}
+        {tasks !== null &&
+          (loading ? <Spinner /> : <TaskList tasksList={tasks} />)}
+
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}

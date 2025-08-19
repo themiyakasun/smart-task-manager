@@ -7,6 +7,8 @@ import Modal from 'components/ui/Modal';
 import TaskForm from 'components/forms/TaskForm';
 import { useState } from 'react';
 import { TaskUpdateSchema } from 'lib/validation';
+import { deleteTaskAPI } from 'services/task-service';
+import { toast } from 'react-toastify';
 
 type Props = {
   taskDetails: TaskGetProps;
@@ -14,6 +16,19 @@ type Props = {
 
 const TaskDetails = ({ taskDetails }: Props) => {
   const [showUpdateTaskModal, setShowUpdateTaskModal] = useState(false);
+
+  const handleDelete = () => {
+    deleteTaskAPI(taskDetails.id).then((res) => {
+      if (res?.status === 200) {
+        toast.success('Successfully deleted the task');
+        setInterval(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.warning('Failed to delete task');
+      }
+    });
+  };
 
   return (
     <div className='space-y-6 '>
@@ -66,7 +81,12 @@ const TaskDetails = ({ taskDetails }: Props) => {
             setShowUpdateTaskModal(true);
           }}
         />
-        <Button type='button' text='Delete' variant='SECONDARY' />
+        <Button
+          type='button'
+          text='Delete'
+          variant='SECONDARY'
+          onClick={handleDelete}
+        />
       </div>
 
       <Modal active={showUpdateTaskModal} setActive={setShowUpdateTaskModal}>

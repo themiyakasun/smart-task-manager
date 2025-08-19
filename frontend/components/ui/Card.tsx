@@ -27,7 +27,7 @@ const Card = ({
         />
       </div>
       <h2 className='heading-3'>{title}</h2>
-      <p className='body-text'>{description}</p>
+      <p className='body-text line-clamp-2'>{description}</p>
 
       <div className='flex'>
         <div className='border border-border rounded-sm p-2 my-4'>
