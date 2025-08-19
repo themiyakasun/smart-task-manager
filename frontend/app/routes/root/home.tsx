@@ -6,10 +6,10 @@ import { getUsersTasksAPI } from 'services/task-service';
 import { useAuth } from 'contexts/useAuth';
 import TaskList from 'components/home/TaskList';
 import Filterbar from 'components/home/Filterbar';
-
-import { RiSearchLine } from '@remixicon/react';
 import Search from 'components/ui/Search';
 import { statusOptions, sortOptions } from 'constants/index';
+import Pagination from 'components/ui/Pagination';
+import { useSearch } from 'contexts/useSearch';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -23,16 +23,21 @@ export default function Home() {
   const [showTaskDetails, setShowTaskDetails] = useState(false);
   const [currentFilter, setCurrentFilter] = useState(statusOptions[0].value);
   const [currentSort, setCurrentSort] = useState(sortOptions[0].value);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { user } = useAuth();
+  const { searchQuery } = useSearch();
 
   const getTasks = useCallback(() => {
     getUsersTasksAPI(user?.id as number, {
       status: currentFilter,
       sortBy: 'CreatedAt',
       isDescending: currentSort === 'newest',
+      pageNumber: currentPage,
+      pageSize: 8,
+      search: searchQuery,
     }).then((res) => setTasks(res?.data!));
-  }, [user?.id, currentFilter, currentSort]);
+  }, [user?.id, currentFilter, currentSort, searchQuery]);
 
   const onFilterChange = (value: string) => {
     setCurrentFilter(value);
@@ -47,7 +52,7 @@ export default function Home() {
 
   useEffect(() => {
     getTasks();
-  }, [currentFilter, currentSort, getTasks]);
+  }, [currentFilter, currentSort, currentPage, searchQuery, getTasks]);
 
   return (
     <div className='container mx-auto'>
@@ -58,17 +63,21 @@ export default function Home() {
           </div>
         </div>
 
-        {
-          <Filterbar
-            tasks={tasks!}
-            user={user!}
-            onFilterChange={onFilterChange}
-            onSortChange={onSortChange}
-            currentFilter={currentFilter}
-            currentSort={currentSort}
-          />
-        }
+        <Filterbar
+          tasks={tasks!}
+          user={user!}
+          onFilterChange={onFilterChange}
+          onSortChange={onSortChange}
+          currentFilter={currentFilter}
+          currentSort={currentSort}
+        />
+
         {tasks !== null && <TaskList tasksList={tasks} />}
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={tasks?.length! / 2}
+        />
       </div>
     </div>
   );

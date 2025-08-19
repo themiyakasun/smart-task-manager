@@ -12,6 +12,7 @@ import './app.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { UserProvider } from 'contexts/useAuth';
+import { SearchProvider } from 'contexts/useSearch';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -48,8 +49,10 @@ export default function App() {
   return (
     <>
       <UserProvider>
-        <Outlet />
-        <ToastContainer />
+        <SearchProvider>
+          <Outlet />
+          <ToastContainer />
+        </SearchProvider>
       </UserProvider>
     </>
   );

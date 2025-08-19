@@ -54,6 +54,11 @@ export type UserContextType = {
   isLoggedIn: () => boolean;
 };
 
+export type SearchContextType = {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+};
+
 export type TaskGetProps = {
   id: number;
   title: string;

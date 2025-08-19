@@ -1,8 +1,6 @@
-import { RiSearchLine } from '@remixicon/react';
 import Button from 'components/ui/Button';
 import Search from 'components/ui/Search';
 import { useAuth } from 'contexts/useAuth';
-import React from 'react';
 
 const Navbar = () => {
   const { logout } = useAuth();
