@@ -43,4 +43,7 @@ Smart Task Manager is a full-stack web application designed to help users effici
 - **Backend**
   - dotnet run
 
+## Known Issues 
+- Make sure the backend server is running at http://localhost:5140
+
      
