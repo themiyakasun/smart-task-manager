@@ -20,10 +20,8 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const [tasks, setTasks] = useState<TaskGetProps[] | null>([]);
-  const [showTaskDetails, setShowTaskDetails] = useState(false);
   const [currentFilter, setCurrentFilter] = useState(statusOptions[0].value);
   const [currentSort, setCurrentSort] = useState(sortOptions[0].value);
-  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();
@@ -35,8 +33,6 @@ export default function Home() {
       status: currentFilter,
       sortBy: 'CreatedAt',
       isDescending: currentSort === 'newest',
-      pageNumber: currentPage,
-      pageSize: 8,
       search: searchQuery,
     }).then((res) => {
       setTasks(res?.data!);
@@ -57,7 +53,9 @@ export default function Home() {
 
   useEffect(() => {
     getTasks();
-  }, [currentFilter, currentSort, currentPage, searchQuery, getTasks]);
+  }, [currentFilter, currentSort, searchQuery, getTasks]);
+
+  console.log();
 
   return (
     <div className='container mx-auto'>
@@ -77,14 +75,18 @@ export default function Home() {
           currentSort={currentSort}
         />
 
+        {tasks?.length == 0 ||
+          (tasks?.length == undefined && (
+            <div className='flex-center mt-10'>
+              <div>
+                <h3 className='heading-3'>No Tasks Available</h3>
+                <p>Hurry up and create task</p>
+              </div>
+            </div>
+          ))}
+
         {tasks !== null &&
           (loading ? <Spinner /> : <TaskList tasksList={tasks} />)}
-
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalPages={tasks?.length! / 2}
-        />
       </div>
     </div>
   );
