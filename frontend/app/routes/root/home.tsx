@@ -12,13 +12,13 @@ import Spinner from 'components/ui/Spinner';
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: 'New React Router App' },
-    { name: 'description', content: 'Welcome to React Router!' },
+    { title: 'Smart Task Management' },
+    { name: 'description', content: 'Welcome to Smart Task management' },
   ];
 }
 
 export default function Home() {
-  const [tasks, setTasks] = useState<TaskGetProps[] | null>([]);
+  const [tasks, setTasks] = useState<TaskGetProps[]>([]);
   const [currentFilter, setCurrentFilter] = useState(statusOptions[0].value);
   const [currentSort, setCurrentSort] = useState(sortOptions[0].value);
   const [loading, setLoading] = useState(false);
@@ -27,17 +27,23 @@ export default function Home() {
   const { searchQuery } = useSearch();
 
   const getTasks = useCallback(() => {
+    if (!user?.id) return;
     setLoading(true);
-    getUsersTasksAPI(user?.id as number, {
+
+    getUsersTasksAPI(user.id, {
       status: currentFilter,
       sortBy: 'CreatedAt',
       isDescending: currentSort === 'newest',
       search: searchQuery,
     }).then((res) => {
-      setTasks(res?.data!);
+      setTasks(res?.data ?? []);
       setLoading(false);
     });
   }, [user?.id, currentFilter, currentSort, searchQuery]);
+
+  useEffect(() => {
+    getTasks();
+  }, [getTasks]);
 
   const onFilterChange = (value: string) => {
     setCurrentFilter(value);
@@ -49,12 +55,6 @@ export default function Home() {
   useEffect(() => {
     getTasks();
   }, [getTasks]);
-
-  useEffect(() => {
-    getTasks();
-  }, [currentFilter, currentSort, searchQuery, getTasks]);
-
-  console.log();
 
   return (
     <div className='container mx-auto'>
