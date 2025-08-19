@@ -45,6 +45,8 @@ export type CardProps = {
   title: string;
   description: string;
   createdAt: Date;
+  setShowTaskDetails: (value: boolean) => void;
+  setActiveTask: (value: number) => void;
 };
 
 export type StatusTabProps = {

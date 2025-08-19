@@ -16,3 +16,10 @@ export const TaskSchema = z.object({
   description: z.string().min(3, { message: 'Description cannot be empty' }),
   status: z.string(),
 });
+
+export const TaskUpdateSchema = z.object({
+  id: z.number(),
+  title: z.string().min(3, { message: 'Title cannot be empty' }),
+  description: z.string().min(3, { message: 'Description cannot be empty' }),
+  status: z.string(),
+});

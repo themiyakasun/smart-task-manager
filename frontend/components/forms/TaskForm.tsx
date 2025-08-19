@@ -6,7 +6,7 @@ import Button from 'components/ui/Button';
 import FormField from 'components/ui/FormField';
 import type { TaskFormProps } from 'index';
 import { statusPostOptions } from 'constants/index';
-import { createTaskAPI } from 'services/task-service';
+import { createTaskAPI, updateTaskAPI } from 'services/task-service';
 import { useAuth } from 'contexts/useAuth';
 import { toast } from 'react-toastify';
 
@@ -23,28 +23,50 @@ const TaskForm = <T extends FieldValues>({
     defaultValues,
   });
 
+  const handleCreate = (data: any) => {
+    createTaskAPI(
+      data?.title,
+      data.description,
+      Number(data.status),
+      user?.id as number
+    ).then((res) => {
+      if (res?.status === 200) {
+        toast.success('Task added successfully');
+      } else {
+        toast.error('Failed to create task');
+      }
+    });
+  };
+
+  const handleUpdate = (data: any) => {
+    updateTaskAPI(
+      data?.id,
+      data.title,
+      data.description,
+      Number(data.status),
+      user?.id as number
+    ).then((res) => {
+      if (res?.status === 200) {
+        toast.success('Task updated successfully');
+      } else {
+        toast.error('Failed to update task');
+      }
+    });
+  };
+
   const onSubmit: SubmitHandler<T> = async (data) => {
     if (isCreate) {
-      createTaskAPI(
-        data?.title,
-        data.description,
-        Number(data.status),
-        user?.id as number
-      ).then((res) => {
-        if (res?.status === 200) {
-          toast.success('Task added successfully');
-        } else {
-          toast.error('Failed to create task');
-        }
-      });
+      handleCreate(data);
+    } else {
+      handleUpdate(data);
     }
   };
 
   return (
-    <div className='bg-bg-primary shadow-md rounded-md p-5'>
+    <div className='bg-bg-primary shadow-md rounded-md p-5 w-2xl'>
       <div className='text-center mb-4'>
         <h2 className='heading-2'>
-          {isCreate ? 'CREATE YOUR TASK' : 'UDATE YOUR TASK'}
+          {isCreate ? 'CREATE YOUR TASK' : 'UPDATE YOUR TASK'}
         </h2>
       </div>
 
@@ -71,6 +93,9 @@ const TaskForm = <T extends FieldValues>({
           options={statusPostOptions}
           placeholder='Status'
         />
+        {!isCreate && (
+          <FormField type='hidden' name='id' id='id' control={control} />
+        )}
         <Button
           type='submit'
           variant='PRIMARY'

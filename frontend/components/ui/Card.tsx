@@ -2,9 +2,23 @@ import type { CardProps } from 'index';
 
 import StatusTab from './StatusTab';
 
-const Card = ({ title, description, id, status, createdAt }: CardProps) => {
+const Card = ({
+  title,
+  description,
+  id,
+  status,
+  createdAt,
+  setShowTaskDetails,
+  setActiveTask,
+}: CardProps) => {
   return (
-    <div className='card w-full'>
+    <div
+      className='card w-full'
+      onClick={() => {
+        setShowTaskDetails(true);
+        setActiveTask(id);
+      }}
+    >
       <div className='flex mb-2'>
         <StatusTab
           type={

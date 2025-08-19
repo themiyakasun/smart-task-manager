@@ -1,4 +1,3 @@
-import Card from 'components/ui/Card';
 import type { Route } from './+types/home';
 import { useCallback, useEffect, useState } from 'react';
 import type { TaskGetProps } from 'index';
