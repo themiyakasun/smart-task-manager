@@ -4,6 +4,31 @@ import type { QueryParams, TaskGetProps } from 'index';
 
 const api = 'https://localhost:7155/api/';
 
+export const createTaskAPI = async (
+  title: string,
+  description: string,
+  status: number,
+  userId: number
+) => {
+  const token = localStorage.getItem('token');
+
+  try {
+    console.log(status);
+    const response = await axios.post(api + 'Task/create', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      title,
+      description,
+      status,
+      userId,
+    });
+    return response;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 export const getUsersTasksAPI = async (
   userId: number,
   queryParams?: QueryParams

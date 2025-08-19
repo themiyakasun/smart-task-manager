@@ -2,6 +2,11 @@ import type { FieldError, UseFormRegister } from 'react-hook-form';
 import type { ZodSchema, ZodType } from 'zod';
 import type z from 'zod';
 
+interface Option {
+  label: string | number;
+  value: string | number;
+}
+
 export interface FormFieldProps<T extends FieldValues> {
   label?: string;
   type: string;
@@ -11,10 +16,17 @@ export interface FormFieldProps<T extends FieldValues> {
   customStyles?: string;
   control: Control<T>;
   error?: FieldError | undefined;
+  options?: Option[];
 }
 
 interface AuthFormProps<T extends FieldValues> {
   type: 'SIGNIN' | 'SIGNUP';
+  schema: ZodType<T>;
+  defaultValues: T;
+}
+
+interface TaskFormProps<T extends FieldValues> {
+  type: 'CREATE' | 'UPDATE';
   schema: ZodType<T>;
   defaultValues: T;
 }

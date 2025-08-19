@@ -10,4 +10,19 @@ const sortOptions = [
   { value: 'oldest', label: 'Oldest First' },
 ];
 
-export { statusOptions, sortOptions };
+const statusPostOptions = [
+  {
+    value: 0,
+    label: 'Pending',
+  },
+  {
+    value: 1,
+    label: 'In Progess',
+  },
+  {
+    value: 2,
+    label: 'Completed',
+  },
+];
+
+export { statusOptions, sortOptions, statusPostOptions };

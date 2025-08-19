@@ -1,8 +1,13 @@
+import TaskForm from 'components/forms/TaskForm';
 import Button from 'components/ui/Button';
+import Modal from 'components/ui/Modal';
 import Search from 'components/ui/Search';
 import { useAuth } from 'contexts/useAuth';
+import { TaskSchema } from 'lib/validation';
+import { useState } from 'react';
 
 const Navbar = () => {
+  const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
   const { logout } = useAuth();
 
   return (
@@ -23,7 +28,12 @@ const Navbar = () => {
               <Search />
             </div>
             <div className='flex-center space-x-2'>
-              <Button variant='PRIMARY' text='Create Task' type='button' />
+              <Button
+                variant='PRIMARY'
+                text='Create Task'
+                type='button'
+                onClick={() => setShowCreateTaskModal(true)}
+              />
               <Button
                 variant='SECONDARY'
                 text='Logout'
@@ -34,6 +44,13 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <Modal active={showCreateTaskModal} setActive={setShowCreateTaskModal}>
+        <TaskForm
+          type='CREATE'
+          schema={TaskSchema}
+          defaultValues={{ title: '', description: '', status: '0' }}
+        />
+      </Modal>
     </header>
   );
 };
