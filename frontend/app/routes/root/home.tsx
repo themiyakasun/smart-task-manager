@@ -52,10 +52,6 @@ export default function Home() {
     setCurrentSort(value);
   };
 
-  useEffect(() => {
-    getTasks();
-  }, [getTasks]);
-
   return (
     <div className='container mx-auto'>
       <div className='flex-1 overflow-hidden'>
