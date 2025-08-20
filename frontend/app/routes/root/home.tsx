@@ -36,13 +36,17 @@ export default function Home() {
       isDescending: currentSort === 'newest',
       search: searchQuery,
     }).then((res) => {
-      setTasks(res?.data ?? []);
-      setLoading(false);
+      setTimeout(() => {
+        setTasks(res?.data ?? []);
+        setLoading(false);
+      }, 1000);
     });
   }, [user?.id, currentFilter, currentSort, searchQuery]);
 
   useEffect(() => {
-    getTasks();
+    if (user?.id) {
+      getTasks();
+    }
   }, [getTasks]);
 
   const onFilterChange = (value: string) => {

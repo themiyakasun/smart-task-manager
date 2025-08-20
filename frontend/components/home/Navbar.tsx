@@ -13,7 +13,6 @@ const Navbar = () => {
   const { logout, isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
-
   const handleShowCreate = () => {
     if (!isLoggedIn) {
       if (typeof window !== 'undefined') {
@@ -69,14 +68,13 @@ const Navbar = () => {
         </div>
       </div>
 
-        <Modal active={showCreateTaskModal} setActive={setShowCreateTaskModal}>
-          <TaskForm
-            type='CREATE'
-            schema={TaskSchema}
-            defaultValues={{ title: '', description: '', status: '0' }}
-          />
-        </Modal>
- 
+      <Modal active={showCreateTaskModal} setActive={setShowCreateTaskModal}>
+        <TaskForm
+          type='CREATE'
+          schema={TaskSchema}
+          defaultValues={{ title: '', description: '', status: '0' }}
+        />
+      </Modal>
     </div>
   );
 };
