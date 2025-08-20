@@ -9,16 +9,14 @@ export function isTokenExpired(token: string) {
   if (!token) return true;
 
   try {
-    // JWT is in format: header.payload.signature
     const payloadBase64 = token.split('.')[1];
     const decodedPayload = JSON.parse(atob(payloadBase64));
 
-    // exp is in seconds, Date.now() is in ms
     const expiryTime = decodedPayload.exp * 1000;
     return Date.now() >= expiryTime;
   } catch (error) {
     console.error('Failed to decode token', error);
-    return true; // assume expired if invalid
+    return true;
   }
 }
 
@@ -67,6 +65,12 @@ export const updateTaskAPI = async (
   const user = localStorage.getItem('user');
   const userId = user ? JSON.parse(user).id : undefined;
 
+  if (isTokenExpired(token!)) {
+    console.log('Token expired, refresh needed');
+  } else {
+    console.log('Token still valid');
+  }
+
   try {
     const response = await axios.put(api + `Task/${id}`, {
       title,
@@ -85,6 +89,12 @@ export const updateTaskAPI = async (
 
 export const deleteTaskAPI = async (id: number) => {
   const token = localStorage.getItem('token');
+
+  if (isTokenExpired(token!)) {
+    console.log('Token expired, refresh needed');
+  } else {
+    console.log('Token still valid');
+  }
   try {
     const response = await axios.delete(api + `Task/${id}`, {
       headers: {
