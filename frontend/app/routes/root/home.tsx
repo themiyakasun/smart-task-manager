@@ -1,7 +1,7 @@
 import type { Route } from './+types/home';
 import { useCallback, useEffect, useState } from 'react';
 import type { TaskGetProps } from 'index';
-import { getUsersTasksAPI } from 'services/task-service';
+import { createTaskAPI, getUsersTasksAPI } from 'services/task-service';
 import { useAuth } from 'contexts/useAuth';
 import TaskList from 'components/home/TaskList';
 import Filterbar from 'components/home/Filterbar';
@@ -9,6 +9,9 @@ import Search from 'components/ui/Search';
 import { statusOptions, sortOptions } from 'constants/index';
 import { useSearch } from 'contexts/useSearch';
 import Spinner from 'components/ui/Spinner';
+import { LoginSchema, TaskSchema } from 'lib/validation';
+import toast from 'react-hot-toast';
+import AuthForm from 'components/forms/AuthForm';
 
 export function meta({}: Route.MetaArgs) {
   return [
