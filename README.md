@@ -45,6 +45,6 @@ Smart Task Manager is a full-stack web application designed to help users effici
 
 ## Known Issues 
 - Make sure the backend server is running at http://localhost:5140
-- If you get this error "can't access property "useRef" or "useState", resolveDispatcher()" simply reload the page because it's version error of toastify package I used (This error only happens on the very first load) 
+- If you get this error "can't access property "useRef" or "useState", resolveDispatcher()" simply reload the page. I fixed it by set SSR to false in route config. 
 
      
