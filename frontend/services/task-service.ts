@@ -5,24 +5,48 @@ import toast from 'react-hot-toast';
 
 const api = 'http://localhost:5140/api/';
 
+export function isTokenExpired(token: string) {
+  if (!token) return true;
+
+  try {
+    // JWT is in format: header.payload.signature
+    const payloadBase64 = token.split('.')[1];
+    const decodedPayload = JSON.parse(atob(payloadBase64));
+
+    // exp is in seconds, Date.now() is in ms
+    const expiryTime = decodedPayload.exp * 1000;
+    return Date.now() >= expiryTime;
+  } catch (error) {
+    console.error('Failed to decode token', error);
+    return true; // assume expired if invalid
+  }
+}
+
 export const createTaskAPI = async (
   title: string,
   description: string,
   status: number
 ) => {
   const token = localStorage.getItem('token');
+  console.log(token);
+
+  if (isTokenExpired(token!)) {
+    console.log('Token expired, refresh needed');
+  } else {
+    console.log('Token still valid');
+  }
   const user = localStorage.getItem('user');
   const userId = user ? JSON.parse(user).id : undefined;
 
   try {
     const response = await axios.post(api + 'Task/create', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       title,
       description,
       status,
       userId,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response;
   } catch (error) {
@@ -45,13 +69,13 @@ export const updateTaskAPI = async (
 
   try {
     const response = await axios.put(api + `Task/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       title,
       description,
       status,
       userId,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response;
   } catch (error) {
