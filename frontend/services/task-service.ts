@@ -1,17 +1,18 @@
 import axios from 'axios';
 import { handleError } from 'helpers/error-handlers';
 import type { QueryParams, TaskGetProps } from 'index';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 const api = 'http://localhost:5140/api/';
 
 export const createTaskAPI = async (
   title: string,
   description: string,
-  status: number,
-  userId: number
+  status: number
 ) => {
   const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
+  const userId = user ? JSON.parse(user).id : undefined;
 
   try {
     const response = await axios.post(api + 'Task/create', {
@@ -26,7 +27,7 @@ export const createTaskAPI = async (
     return response;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 400) {
-      toast.warning('Task with this title already exists for the user.');
+      toast.error('Task with this title already exists for the user.');
     }
     handleError(error);
   }
@@ -36,10 +37,12 @@ export const updateTaskAPI = async (
   id: string,
   title: string,
   description: string,
-  status: number,
-  userId: number
+  status: number
 ) => {
   const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
+  const userId = user ? JSON.parse(user).id : undefined;
+
   try {
     const response = await axios.put(api + `Task/${id}`, {
       headers: {

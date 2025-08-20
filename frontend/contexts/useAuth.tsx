@@ -1,17 +1,17 @@
 import axios from 'axios';
 import type { UserContextType, UserData } from 'index';
 import React, { createContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import { loginAPI, registerAPI } from 'services/auth-service';
 
 const UserContext = createContext<UserContextType>({} as UserContextType);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const navigate = useNavigate();
-  const [token, setToken] = useState<string | null>('');
+  const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserData | null>(null);
   const [isReady, setIsReady] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -37,7 +37,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
           navigate('/sign-in');
         }
       })
-      .catch((e) => toast.warning('Server error occured'));
+      .catch((e) => toast.error('Server error occured'));
   };
 
   const loginUser = async (email: string, password: string) => {
@@ -57,7 +57,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
           navigate('/');
         }
       })
-      .catch((e) => toast.warning('Server error occured'));
+      .catch((e) => toast.error('Server error occured'));
   };
 
   const isLoggedIn = !!user;
@@ -66,15 +66,15 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     setUser(null);
-    setToken('');
-    navigate('/sign-in');
+    setToken(null);
+    navigate('sign-in');
   };
 
   return (
     <UserContext.Provider
       value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}
     >
-      {isReady ? children : <div>Loading...</div>}
+      {isReady && children}
     </UserContext.Provider>
   );
 };

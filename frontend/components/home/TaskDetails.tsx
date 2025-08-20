@@ -1,5 +1,5 @@
 import StatusTab from 'components/ui/StatusTab';
-import type { TaskGetProps } from 'index';
+import type { TaskGetProps, UserData } from 'index';
 
 import { RiCalendarLine } from '@remixicon/react';
 import Button from 'components/ui/Button';
@@ -8,7 +8,7 @@ import TaskForm from 'components/forms/TaskForm';
 import { useEffect, useState } from 'react';
 import { TaskUpdateSchema } from 'lib/validation';
 import { deleteTaskAPI } from 'services/task-service';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 type Props = {
   taskDetails: TaskGetProps;
@@ -17,6 +17,7 @@ type Props = {
 const TaskDetails = ({ taskDetails }: Props) => {
   const [showUpdateTaskModal, setShowUpdateTaskModal] = useState(false);
   const [formattedDate, setFormattedDate] = useState('');
+  const [isModalReady, setIsModalReady] = useState(false);
 
   useEffect(() => {
     setFormattedDate(
@@ -36,7 +37,7 @@ const TaskDetails = ({ taskDetails }: Props) => {
         toast.success('Successfully deleted the task');
         setTimeout(() => window.location.reload(), 2000);
       } else {
-        toast.warning('Failed to delete task');
+        toast.error('Failed to delete task');
       }
     });
   };
@@ -82,6 +83,7 @@ const TaskDetails = ({ taskDetails }: Props) => {
           variant='PRIMARY'
           onClick={() => {
             setShowUpdateTaskModal(true);
+            setTimeout(() => setIsModalReady(true), 100);
           }}
         />
         <Button
@@ -93,17 +95,19 @@ const TaskDetails = ({ taskDetails }: Props) => {
       </div>
 
       <Modal active={showUpdateTaskModal} setActive={setShowUpdateTaskModal}>
-        <TaskForm
-          key={taskDetails.id}
-          type='UPDATE'
-          schema={TaskUpdateSchema}
-          defaultValues={{
-            id: taskDetails.id,
-            title: taskDetails.title,
-            description: taskDetails.description,
-            status: taskDetails.status.toString(),
-          }}
-        />
+        {isModalReady && (
+          <TaskForm
+            key={`task-${taskDetails.id}-${Date.now()}`}
+            type='UPDATE'
+            schema={TaskUpdateSchema}
+            defaultValues={{
+              id: taskDetails.id,
+              title: taskDetails.title,
+              description: taskDetails.description,
+              status: taskDetails.status.toString(),
+            }}
+          />
+        )}
       </Modal>
     </div>
   );

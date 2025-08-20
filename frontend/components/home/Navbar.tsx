@@ -4,24 +4,26 @@ import Modal from 'components/ui/Modal';
 import Search from 'components/ui/Search';
 import { useAuth } from 'contexts/useAuth';
 import { TaskSchema } from 'lib/validation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 
 const Navbar = () => {
-  const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
   const { logout, isLoggedIn } = useAuth();
   const navigate = useNavigate();
+  const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
+  const [isModalReady, setIsModalReady] = useState(false);
 
   const handleShowCreate = () => {
     if (!isLoggedIn) {
       if (typeof window !== 'undefined') {
-        toast.warning('Need to authenticate');
+        toast.error('Need to authenticate');
         window.location.href = '/sign-in';
       }
       return;
     }
     setShowCreateTaskModal(true);
+    setTimeout(() => setIsModalReady(true), 100);
   };
 
   return (
@@ -67,13 +69,14 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
       <Modal active={showCreateTaskModal} setActive={setShowCreateTaskModal}>
-        <TaskForm
-          type='CREATE'
-          schema={TaskSchema}
-          defaultValues={{ title: '', description: '', status: '0' }}
-        />
+        {isModalReady && (
+          <TaskForm
+            type='CREATE'
+            schema={TaskSchema}
+            defaultValues={{ title: '', description: '', status: '0' }}
+          />
+        )}
       </Modal>
     </div>
   );

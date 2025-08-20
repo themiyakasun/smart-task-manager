@@ -9,8 +9,6 @@ import {
 
 import type { Route } from './+types/root';
 import './app.css';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
 import { UserProvider } from 'contexts/useAuth';
 import { SearchProvider } from 'contexts/useSearch';
 
@@ -51,7 +49,6 @@ export default function App() {
       <UserProvider>
         <SearchProvider>
           <Outlet />
-          <ToastContainer />
         </SearchProvider>
       </UserProvider>
     </>
