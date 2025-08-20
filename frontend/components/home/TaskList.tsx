@@ -1,6 +1,6 @@
 import Card from 'components/ui/Card';
 import Modal from 'components/ui/Modal';
-import type { TaskGetProps } from 'index';
+import type { TaskGetProps, UserData } from 'index';
 import React, { useEffect, useState } from 'react';
 import { getTaskByIdAPI } from 'services/task-service';
 import TaskDetails from './TaskDetails';
@@ -8,9 +8,10 @@ import Spinner from 'components/ui/Spinner';
 
 type Props = {
   tasksList: TaskGetProps[];
+  user: UserData;
 };
 
-const TaskList = ({ tasksList }: Props) => {
+const TaskList = ({ tasksList, user }: Props) => {
   const [showTaskDetails, setShowTaskDetails] = useState(false);
   const [activeTask, setActiveTask] = useState<number | null>(null);
   const [taskDetails, setTaskDetails] = useState<TaskGetProps | null>(null);

@@ -8,10 +8,11 @@ const api = 'http://localhost:5140/api/';
 export const createTaskAPI = async (
   title: string,
   description: string,
-  status: number,
-  userId: number
+  status: number
 ) => {
   const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
+  const userId = user ? JSON.parse(user).id : undefined;
 
   try {
     const response = await axios.post(api + 'Task/create', {
@@ -36,10 +37,12 @@ export const updateTaskAPI = async (
   id: string,
   title: string,
   description: string,
-  status: number,
-  userId: number
+  status: number
 ) => {
   const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
+  const userId = user ? JSON.parse(user).id : undefined;
+
   try {
     const response = await axios.put(api + `Task/${id}`, {
       headers: {

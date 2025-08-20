@@ -8,7 +8,6 @@ import type { TaskFormProps } from 'index';
 import type { DefaultValues } from 'react-hook-form';
 import { statusPostOptions } from 'constants/index';
 import { createTaskAPI, updateTaskAPI } from 'services/task-service';
-import { useAuth } from 'contexts/useAuth';
 import toast from 'react-hot-toast';
 
 const TaskForm = <T extends FieldValues>({
@@ -17,7 +16,6 @@ const TaskForm = <T extends FieldValues>({
   defaultValues,
 }: TaskFormProps<T>) => {
   const isCreate = type === 'CREATE';
-  const { user } = useAuth();
 
   const { handleSubmit, control } = useForm<T>({
     resolver: zodResolver(schema as any) as any,
@@ -25,19 +23,16 @@ const TaskForm = <T extends FieldValues>({
   });
 
   const handleCreate = (data: any) => {
-    createTaskAPI(
-      data?.title,
-      data.description,
-      Number(data.status),
-      user?.id as number
-    ).then((res) => {
-      if (res?.status === 200) {
-        toast.success('Task added successfully');
-        setTimeout(() => window.location.reload(), 2000);
-      } else {
-        toast.error('Failed to create task');
+    createTaskAPI(data?.title, data.description, Number(data.status)).then(
+      (res) => {
+        if (res?.status === 200) {
+          toast.success('Task added successfully');
+          setTimeout(() => window.location.reload(), 2000);
+        } else {
+          toast.error('Failed to create task');
+        }
       }
-    });
+    );
   };
 
   const handleUpdate = (data: any) => {
@@ -45,8 +40,7 @@ const TaskForm = <T extends FieldValues>({
       data?.id,
       data.title,
       data.description,
-      Number(data.status),
-      user?.id as number
+      Number(data.status)
     ).then((res) => {
       if (res?.status === 200) {
         toast.success('Task updated successfully');
@@ -57,7 +51,7 @@ const TaskForm = <T extends FieldValues>({
     });
   };
 
-  const onSubmit: SubmitHandler<T> = async (data) => {
+  const onSubmit: SubmitHandler<T> = (data) => {
     if (isCreate) {
       handleCreate(data);
     } else {

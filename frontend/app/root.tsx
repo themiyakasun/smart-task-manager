@@ -11,7 +11,6 @@ import type { Route } from './+types/root';
 import './app.css';
 import { UserProvider } from 'contexts/useAuth';
 import { SearchProvider } from 'contexts/useSearch';
-import { Toaster } from 'react-hot-toast';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -50,7 +49,6 @@ export default function App() {
       <UserProvider>
         <SearchProvider>
           <Outlet />
-          <Toaster position='top-right' />
         </SearchProvider>
       </UserProvider>
     </>

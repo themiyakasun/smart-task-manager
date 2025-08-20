@@ -83,7 +83,7 @@ export default function Home() {
           </div>
         )}
 
-        {loading ? <Spinner /> : <TaskList tasksList={tasks} />}
+        {loading ? <Spinner /> : <TaskList tasksList={tasks} user={user!} />}
       </div>
     </div>
   );
