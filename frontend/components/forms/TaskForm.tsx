@@ -33,7 +33,6 @@ const TaskForm = <T extends FieldValues>({
     ).then((res) => {
       if (res?.status === 200) {
         toast.success('Task added successfully');
-        setTimeout(() => window.location.reload(), 2000);
       } else {
         toast.error('Failed to create task');
       }

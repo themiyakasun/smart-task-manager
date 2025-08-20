@@ -74,7 +74,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     <UserContext.Provider
       value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}
     >
-      {isReady ? children : null}
+      {isReady ? children : <div>Loading...</div>}
     </UserContext.Provider>
   );
 };

@@ -18,7 +18,7 @@ const FormField = <T extends FieldValues>({
 
   return (
     <div>
-      {label && <label htmlFor={id}>{label}</label>}
+      {label && <label htmlFor={name}>{label}</label>}
       <Controller
         name={name}
         control={control}
