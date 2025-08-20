@@ -9,7 +9,7 @@ import type { DefaultValues } from 'react-hook-form';
 import { statusPostOptions } from 'constants/index';
 import { createTaskAPI, updateTaskAPI } from 'services/task-service';
 import { useAuth } from 'contexts/useAuth';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 const TaskForm = <T extends FieldValues>({
   type,
@@ -33,6 +33,7 @@ const TaskForm = <T extends FieldValues>({
     ).then((res) => {
       if (res?.status === 200) {
         toast.success('Task added successfully');
+        setTimeout(() => window.location.reload(), 2000);
       } else {
         toast.error('Failed to create task');
       }

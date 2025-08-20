@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 export const handleError = (error: any) => {
   if (axios.isAxiosError(error)) {
@@ -7,19 +7,19 @@ export const handleError = (error: any) => {
 
     if (Array.isArray(err?.data.errors)) {
       for (let val of err?.data.errors) {
-        toast.warning(val.description);
+        toast.error(val.description);
       }
     }
   } else if (typeof err?.data.errors === 'object') {
     for (let e of err?.data.errors) {
-      toast.warning(err.data.errors[e][0]);
+      toast.error(err.data.errors[e][0]);
     }
   } else if (err?.data) {
-    toast.warning(err.data);
+    toast.error(err.data);
   } else if (err?.status === 401) {
-    toast.warning('Please login');
+    toast.error('Please login');
     window.history.pushState({}, 'LoginPage', '/sign-in');
   } else if (err) {
-    toast.warning(err.data);
+    toast.error(err.data);
   }
 };

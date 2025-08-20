@@ -5,8 +5,8 @@ import Search from 'components/ui/Search';
 import { useAuth } from 'contexts/useAuth';
 import { TaskSchema } from 'lib/validation';
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 
 const Navbar = () => {
   const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
@@ -16,7 +16,7 @@ const Navbar = () => {
   const handleShowCreate = () => {
     if (!isLoggedIn) {
       if (typeof window !== 'undefined') {
-        toast.warning('Need to authenticate');
+        toast.error('Need to authenticate');
         window.location.href = '/sign-in';
       }
       return;

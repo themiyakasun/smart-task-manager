@@ -8,7 +8,7 @@ import TaskForm from 'components/forms/TaskForm';
 import { useEffect, useState } from 'react';
 import { TaskUpdateSchema } from 'lib/validation';
 import { deleteTaskAPI } from 'services/task-service';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 type Props = {
   taskDetails: TaskGetProps;
@@ -36,7 +36,7 @@ const TaskDetails = ({ taskDetails }: Props) => {
         toast.success('Successfully deleted the task');
         setTimeout(() => window.location.reload(), 2000);
       } else {
-        toast.warning('Failed to delete task');
+        toast.error('Failed to delete task');
       }
     });
   };

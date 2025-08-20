@@ -9,10 +9,9 @@ import {
 
 import type { Route } from './+types/root';
 import './app.css';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
 import { UserProvider } from 'contexts/useAuth';
 import { SearchProvider } from 'contexts/useSearch';
+import { Toaster } from 'react-hot-toast';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -51,7 +50,7 @@ export default function App() {
       <UserProvider>
         <SearchProvider>
           <Outlet />
-          <ToastContainer />
+          <Toaster position='top-right' />
         </SearchProvider>
       </UserProvider>
     </>

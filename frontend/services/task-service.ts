@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { handleError } from 'helpers/error-handlers';
 import type { QueryParams, TaskGetProps } from 'index';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 const api = 'http://localhost:5140/api/';
 
@@ -26,7 +26,7 @@ export const createTaskAPI = async (
     return response;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 400) {
-      toast.warning('Task with this title already exists for the user.');
+      toast.error('Task with this title already exists for the user.');
     }
     handleError(error);
   }
